@@ -1,0 +1,8 @@
+{
+  "id": 1001,
+  "customerId": 501,
+  "product": "Laptop",
+  "quantity": 1,
+  "status": "pending",
+  "createdAt": "2025-09-02T11:20:00Z"
+}

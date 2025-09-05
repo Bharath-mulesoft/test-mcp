@@ -1,0 +1,41 @@
+#%RAML 1.0
+title: Account API
+version: v1
+baseUri: https://api.example.com/{version}
+mediaType: application/json
+
+traits:
+  errorCode: !include traits/errorResponses.raml
+
+/accounts:
+  description: Collection of accounts
+
+  post:
+    description: Create a new account
+    is: [ errorCode ]
+    body:
+      application/json:
+        type: !include types/Account.raml
+        example: !include examples/account-create.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: !include types/Account.raml
+            example: !include examples/account-created.json
+
+  /{accountId}:
+    uriParameters:
+      accountId:
+        type: integer
+        description: Unique identifier of the account
+
+    get:
+      description: Retrieve an account by ID
+      is: [ errorCode ]
+      responses:
+        200:
+          body:
+            application/json:
+              type: !include types/Account.raml
+              example: !include examples/account-single.json

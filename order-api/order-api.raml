@@ -1,0 +1,42 @@
+#%RAML 1.0
+title: Order API
+version: v1
+baseUri: https://api.example.com/{version}
+mediaType: application/json
+
+
+traits:
+  errorCode: !include traits/errorResponses.raml
+
+/orders:
+  description: Collection of orders
+
+  post:
+    description: Create a new order
+    is: [ errorCode ]
+    body:
+      application/json:
+        type: !include types/Order.raml
+        example: !include examples/order-create.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: !include types/Order.raml
+            example: !include examples/order-created.json
+
+  /{orderId}:
+    uriParameters:
+      orderId:
+        type: integer
+        description: Unique identifier of the order
+
+    get:
+      description: Retrieve an order by ID
+      is: [ errorCode ]
+      responses:
+        200:
+          body:
+            application/json:
+              type: !include types/Order.raml
+              example: !include examples/order-single.json

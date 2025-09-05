@@ -1,0 +1,10 @@
+{
+  "main": "order-api.raml",
+  "name": "order-api",
+  "groupId": "9d4f028d-fa48-4e54-8faa-e9ebce3bd782",
+  "assetId": "order-api",
+  "version": "1.0.0",
+  "classifier": "raml",
+  "tags": [],
+  "descriptorVersion": "1.0.0"
+}
