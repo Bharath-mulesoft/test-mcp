@@ -1,0 +1,88 @@
+#%RAML 1.0
+title: Flight Reservation API
+version: v1
+baseUri: https://api.example.com/flight-reservation/v1
+mediaType: application/json
+protocols: [ HTTPS ]
+
+uses:
+  common: libraries/common.raml
+  traits: traits/index.raml
+  rt: resourceTypes/index.raml
+
+securedBy: [ oauth_2_0 ]
+
+documentation:
+  - title: Overview
+    content: |
+      This API allows users to search flights, book reservations, and manage check-ins.
+
+/flights:
+  type: rt.collection
+  get:
+    is: [ traits.traceable, traits.paginated, traits.errorResponses ]
+    description: Retrieve all available flights
+    responses:
+      200:
+        body:
+          application/json:
+            type: common.Flight[]
+            example: !include examples/flight-example.json
+
+/reservations:
+  type: rt.collection
+  post:
+    description: Create a new reservation
+    body:
+      application/json:
+        type: common.Reservation
+        example: !include examples/reservation-example.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: common.Reservation
+  /{reservationId}:
+    type: rt.item
+    uriParameters:
+      reservationId:
+        type: string
+        description: Unique reservation identifier
+    get:
+      is: [ traits.traceable, traits.errorResponses ]
+      description: Retrieve a reservation by ID
+      responses:
+        200:
+          body:
+            application/json:
+              type: common.Reservation
+    delete:
+      description: Cancel a reservation
+      responses:
+        204:
+    /passengers:
+      type: rt.collection
+      get:
+        description: Get passengers for a reservation
+        responses:
+          200:
+            body:
+              application/json:
+                type: common.Passenger[]
+                example: !include examples/passenger-example.json
+
+/checkins:
+  type: rt.collection
+  post:
+    description: Perform passenger check-in
+    body:
+      application/json:
+        type: object
+        properties:
+          reservationId: string
+          passengerId: string
+    responses:
+      200:
+        body:
+          application/json:
+            example: { "status": "Checked-in" }

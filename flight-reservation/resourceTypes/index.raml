@@ -1,0 +1,14 @@
+#%RAML 1.0 ResourceType
+collection:
+  get?:
+    description: Retrieve all <<resourcePathName>>
+  post?:
+    description: Create a new <<resourcePathName | !singularize>>
+
+item:
+  get?:
+    description: Retrieve a single <<resourcePathName | !singularize>> by ID
+  put?:
+    description: Update a <<resourcePathName | !singularize>>
+  delete?:
+    description: Delete a <<resourcePathName | !singularize>>

@@ -1,0 +1,14 @@
+#%RAML 1.0 SecurityScheme
+type: OAuth 2.0
+describedBy:
+  headers:
+    Authorization:
+      description: OAuth2 access token
+      type: string
+  responses:
+    401:
+      description: Unauthorized
+settings:
+  authorizationUri: https://auth.example.com/oauth/authorize
+  accessTokenUri: https://auth.example.com/oauth/token
+  authorizationGrants: [ authorization_code, client_credentials ]

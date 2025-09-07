@@ -1,0 +1,36 @@
+#%RAML 1.0 Trait
+
+traceable:
+  headers:
+    X-Correlation-ID:
+      type: string
+      description: Correlation ID for request tracking
+
+paginated:
+  queryParameters:
+    page:
+      type: integer
+      default: 1
+    pageSize:
+      type: integer
+      default: 50
+
+errorResponses:
+  responses:
+    400:
+      body:
+        application/json:
+          type: common.ErrorResponse
+          example: !include ../examples/error-example.json
+    401:
+      body:
+        application/json:
+          type: common.ErrorResponse
+    404:
+      body:
+        application/json:
+          type: common.ErrorResponse
+    500:
+      body:
+        application/json:
+          type: common.ErrorResponse

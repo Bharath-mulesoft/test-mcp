@@ -1,0 +1,12 @@
+{
+  "id": "RES456",
+  "flightId": "FL123",
+  "passenger": {
+    "id": "P001",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com"
+  },
+  "status": "CONFIRMED",
+  "bookingDate": "2025-09-05T12:00:00Z"
+}
