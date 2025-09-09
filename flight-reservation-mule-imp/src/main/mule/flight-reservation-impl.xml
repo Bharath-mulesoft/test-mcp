@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit"
+      xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+          http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+          http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+          http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+          http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+    <!-- Load environment properties -->
+    <configuration-properties file="config-dev.properties" />
+
+    <!-- HTTP Listener -->
+    <http:listener-config name="HTTP_Listener_config"
+                          host="${http.host}"
+                          port="${http.port}" />
+
+    <!-- APIKit Router -->
+    <apikit:router name="flight-reservation-api"
+                   raml="api/flight-reservation.raml"
+                   outboundHeadersMapName="outboundHeaders"
+                   httpStatusVarName="httpStatus"/>
+
+    <!-- Global Error Handler -->
+    <error-handler>
+        <on-error-propagate enableNotifications="true" logException="true" type="ANY">
+            <set-payload value='{"error": "An unexpected error occurred"}' mimeType="application/json"/>
+            <set-variable variableName="httpStatus" value="500"/>
+        </on-error-propagate>
+    </error-handler>
+
+    <!-- ===================== FLOWS ===================== -->
+
+    <!-- POST /flight-reservation -->
+    <flow name="post:/flight-reservation:flight-reservation-api-config">
+        <flow-ref name="mock-reservation-subflow"/>
+    </flow>
+
+    <!-- GET /flight-reservation -->
+    <flow name="get:/flight-reservation:flight-reservation-api-config">
+        <flow-ref name="mock-booking-subflow"/>
+    </flow>
+
+    <!-- DELETE /flight-reservation -->
+    <flow name="delete:/flight-reservation:flight-reservation-api-config">
+        <flow-ref name="mock-cancel-subflow"/>
+    </flow>
+
+    <!-- ===================== SUBFLOWS ===================== -->
+
+    <sub-flow name="mock-reservation-subflow">
+        <set-payload value="#[readUrl('classpath:/examples/reservation-example.json')]" mimeType="application/json"/>
+        <set-variable variableName="httpStatus" value="201"/>
+    </sub-flow>
+
+    <sub-flow name="mock-booking-subflow">
+        <set-payload value="#[readUrl('classpath:/examples/booking-example.json')]" mimeType="application/json"/>
+        <set-variable variableName="httpStatus" value="200"/>
+    </sub-flow>
+
+    <sub-flow name="mock-cancel-subflow">
+        <set-payload value="#[readUrl('classpath:/examples/cancel-example.json')]" mimeType="application/json"/>
+        <set-variable variableName="httpStatus" value="200"/>
+    </sub-flow>
+
+</mule>
