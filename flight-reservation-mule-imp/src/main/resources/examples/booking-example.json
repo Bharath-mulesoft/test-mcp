@@ -1,7 +1,0 @@
-{
-  "reservationId": "RES12345",
-  "customerName": "John Doe",
-  "flightNumber": "AI203",
-  "date": "2025-09-15",
-  "status": "CONFIRMED"
-}
