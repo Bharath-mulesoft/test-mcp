@@ -1,0 +1,11 @@
+description: API client identification via header
+type: Pass Through
+describedBy:
+  headers:
+    X-Client-Id:
+      description: The client identifier provided to the consumer. This header must be present for requests that require client identification.
+      type: string
+  responses:
+    401:
+      description: Missing or invalid client id
+settings: {}

@@ -1,0 +1,25 @@
+{
+  "count": 2,
+  "items": [
+    {
+      "id": "r2001",
+      "hotelId": "h1001",
+      "number": "101",
+      "type": "Deluxe Sea View",
+      "price": 250.00,
+      "currency": "USD",
+      "available": true,
+      "amenities": ["king-bed","balcony","mini-bar"]
+    },
+    {
+      "id": "r2002",
+      "hotelId": "h1002",
+      "number": "12",
+      "type": "Standard",
+      "price": 120.00,
+      "currency": "USD",
+      "available": false,
+      "amenities": ["queen-bed","ensuite"]
+    }
+  ]
+}

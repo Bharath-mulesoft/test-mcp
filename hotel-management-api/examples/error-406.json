@@ -1,0 +1,5 @@
+{
+  "status": 406,
+  "error": "Not Acceptable",
+  "message": "Requested media type is not supported."
+}

@@ -1,0 +1,13 @@
+{
+  "main": "api.raml",
+  "name": "hotel-management-api",
+  "groupId": "296b7e49-05ad-4ab3-bf55-e5ee94d2226c",
+  "assetId": "hotel-management-api",
+  "version": "1.0.1",
+  "classifier": "raml",
+  "tags": [],
+  "descriptorVersion": "1.0.0",
+  "organizationId": "296b7e49-05ad-4ab3-bf55-e5ee94d2226c",
+  "apiVersion": "v1",
+  "originalFormatVersion": "1.0"
+}

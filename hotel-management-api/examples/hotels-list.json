@@ -1,0 +1,35 @@
+{
+  "count": 2,
+  "items": [
+    {
+      "id": "h1001",
+      "name": "Grand Ocean View",
+      "description": "Luxury seaside hotel with conference facilities",
+      "address": {
+        "street": "123 Seaside Ave",
+        "city": "Santa Marina",
+        "state": "CA",
+        "postalCode": "90210",
+        "country": "USA"
+      },
+      "stars": 5,
+      "phone": "+1-310-555-0143",
+      "amenities": ["pool", "spa", "free-wifi", "gym"]
+    },
+    {
+      "id": "h1002",
+      "name": "Mountain Lodge",
+      "description": "Cozy lodge near the ski slopes",
+      "address": {
+        "street": "77 Alpine Way",
+        "city": "Northpeak",
+        "state": "CO",
+        "postalCode": "80439",
+        "country": "USA"
+      },
+      "stars": 4,
+      "phone": "+1-970-555-0199",
+      "amenities": ["breakfast", "shuttle", "fireplace"]
+    }
+  ]
+}

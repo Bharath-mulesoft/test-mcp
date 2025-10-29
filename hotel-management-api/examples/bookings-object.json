@@ -1,0 +1,12 @@
+{
+  "id": "b3001",
+  "hotelId": "h1001",
+  "roomId": "r2001",
+  "guestName": "Aisha Khan",
+  "guestEmail": "aisha.khan@example.com",
+  "checkIn": "2025-11-15T15:00:00Z",
+  "checkOut": "2025-11-18T11:00:00Z",
+  "total": 750.00,
+  "currency": "USD",
+  "status": "confirmed"
+}

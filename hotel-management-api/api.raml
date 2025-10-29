@@ -1,0 +1,263 @@
+#%RAML 1.0
+title: Hotel Management API
+version: v1
+baseUri: https://api.example.com/{version}
+mediaType: application/json
+# securitySchemes:
+#   client_id_header: !include security/securitySchemes.raml
+
+uses:
+  types: types/common-types.raml
+  traits: traits/headers.raml
+
+/health:
+  get:
+    description: Check API health
+    responses:
+      200:
+        body:
+          application/json:
+            example: { status: "ok" }
+
+
+/hotels:
+  get:
+    is: [ traits.clientHeaders ]
+    description: |
+      Retrieve a list of hotels. Supports optional filters and should return stable pagination headers (e.g. Link or X-Total-Count) in production.
+    queryParameters:
+      city:
+        type: string
+        required: false
+        example: "Santa Marina"
+        description: Filter hotels by city name (case-insensitive).
+      stars:
+        type: integer
+        required: false
+        example: 4
+        description: Filter hotels by star rating (1-5).
+        enum: [1, 2, 3, 4, 5]
+      limit:
+        type: integer
+        required: false
+        example: 25
+        description: Maximum number of items to return (pagination). Default is implementation-defined.
+      offset:
+        type: integer
+        required: false
+        example: 0
+        description: Offset for pagination results.
+    responses:
+      200:
+        headers:
+          X-Total-Count:
+            description: Total number of matching hotels
+            type: integer
+        body:
+          application/json:
+            type: types.HotelList
+            example: !include examples/hotels-list.json
+
+  post:
+    is: [ traits.clientHeaders ]
+    description: Create a new hotel (admin-level operation). Server assigns `id` if not provided.
+    # securedBy: [ client_id_header ]
+    body:
+      application/json:
+        type: types.Hotel
+        example: !include examples/hotels-object.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: types.Hotel
+
+  /{hotelId}:
+    uriParameters:
+      hotelId:
+        type: string
+        required: true
+        example: "h1001"
+        description: Unique hotel identifier (URI component).
+        displayName: Hotel ID
+    get:
+      is: [ traits.clientHeaders ]
+      description: Retrieve hotel by id. Returns 404 if the hotel does not exist.
+      responses:
+        200:
+          body:
+            application/json:
+              type: types.Hotel
+              example: !include examples/hotels-object.json
+
+    put:
+      is: [ traits.clientHeaders ]
+      description: Update an existing hotel. Partial updates are not supported; send full resource representation.
+      # securedBy: [ client_id_header ]
+      body:
+        application/json:
+          type: types.Hotel
+      responses:
+        200:
+          body:
+            application/json:
+              type: types.Hotel
+
+    delete:
+      is: [ traits.clientHeaders ]
+      description: Delete a hotel. This may perform a soft-delete depending on implementation.
+      # securedBy: [ client_id_header ]
+      responses:
+        204:
+          description: Room deleted successfully. No content returned.
+          body:
+            application/json:
+              example: {}
+
+/rooms:
+  get:
+    is: [ traits.clientHeaders ]
+    description: List rooms with optional filters
+    queryParameters:
+      hotelId:
+        type: string
+        required: false
+        example: "h1001"
+        description: Filter rooms by hotel id.
+      type:
+        type: string
+        required: false
+        example: "Deluxe Sea View"
+        description: Filter rooms by type/name.
+        enum: ["Standard", "Deluxe", "Suite", "Family", "Accessible", "Deluxe Sea View"]
+      available:
+        type: boolean
+        required: false
+        example: true
+        description: Filter rooms by availability.
+    responses:
+      200:
+        body:
+          application/json:
+            type: types.RoomList
+            example: !include examples/rooms-list.json
+
+  post:
+    is: [ traits.clientHeaders ]
+    description: Create a room
+    # securedBy: [ client_id_header ]
+    body:
+      application/json:
+        type: types.Room
+        example: !include examples/rooms-object.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: types.Room
+
+  /{roomId}:
+    uriParameters:
+      roomId:
+        type: string
+        required: true
+        example: "r2001"
+        description: Unique room identifier.
+        displayName: Room ID
+    get:
+      is: [ traits.clientHeaders ]
+      responses:
+        200:
+          body:
+            application/json:
+              type: types.Room
+              example: !include examples/rooms-object.json
+
+    put:
+      # securedBy: [ client_id_header ]
+      body:
+        application/json:
+          type: types.Room
+      responses:
+        200:
+          body:
+            application/json:
+              type: types.Room
+
+    delete:
+      # securedBy: [ client_id_header ]
+      responses:
+        204:
+          description: Booking deleted successfully. No content returned.
+          body:
+            application/json:
+              example: {}
+
+/bookings:
+  get:
+    description: Retrieve bookings
+    queryParameters:
+      guestName:
+        type: string
+        required: false
+        example: "Aisha Khan"
+        description: Filter bookings by guest name.
+      hotelId:
+        type: string
+        required: false
+        example: "h1001"
+        description: Filter bookings by hotel id.
+    responses:
+      200:
+        body:
+          application/json:
+            type: types.BookingList
+            example: !include examples/bookings-list.json
+
+  post:
+    is: [ traits.clientHeaders ]
+    description: Create a booking
+    # securedBy: [ client_id_header ]
+    body:
+      application/json:
+        type: types.Booking
+        example: !include examples/bookings-object.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: types.Booking
+
+  /{bookingId}:
+    uriParameters:
+      bookingId:
+        type: string
+        required: true
+        example: "b3001"
+        description: Unique booking identifier.
+        displayName: Booking ID
+    get:
+      is: [ traits.clientHeaders ]
+      responses:
+        200:
+          body:
+            application/json:
+              type: types.Booking
+              example: !include examples/bookings-object.json
+
+    put:
+      # securedBy: [ client_id_header ]
+      body:
+        application/json:
+          type: types.Booking
+      responses:
+        200:
+          body:
+            application/json:
+              type: types.Booking
+
+    delete:
+      # securedBy: [ client_id_header ]
+      responses:
+        204:
+

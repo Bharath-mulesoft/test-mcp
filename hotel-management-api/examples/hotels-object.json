@@ -1,0 +1,15 @@
+{
+  "id": "h1001",
+  "name": "Grand Ocean View",
+  "description": "Luxury seaside hotel with conference facilities",
+  "address": {
+    "street": "123 Seaside Ave",
+    "city": "Santa Marina",
+    "state": "CA",
+    "postalCode": "90210",
+    "country": "USA"
+  },
+  "stars": 5,
+  "phone": "+1-310-555-0143",
+  "amenities": ["pool","spa","free-wifi","gym"]
+}

@@ -1,0 +1,5 @@
+{
+  "status": 405,
+  "error": "Method Not Allowed",
+  "message": "HTTP method not allowed for this endpoint."
+}

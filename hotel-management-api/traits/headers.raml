@@ -1,0 +1,42 @@
+#%RAML 1.0 Library
+usage: Common header traits
+
+traits:
+  clientHeaders:
+    description: "Apply required and optional client headers."
+    headers:
+      client_Id:
+        description: "Client identifier (required)."
+        type: string
+        required: true
+        example: "client-abc-12345"
+      client_Secret:
+        description: "Client secret for authentication (required)."
+        type: string
+        required: true
+        example: "secret-xyz-67890"
+      Content-Type:
+        description: "Content type of the request payload (required)."
+        type: string
+        required: true
+        example: "application/json"
+      X-Correlation-Id:
+        description: "Correlation ID for distributed tracing (required)."
+        type: string
+        required: true
+        example: "corr-20251028-0001"
+      X-Transaction-Id:
+        description: "Transaction ID for business operations (optional)."
+        type: string
+        required: false
+        example: "txn-20251028-1234"
+      X-Request-Id:
+        description: "Optional request identifier for tracing."
+        type: string
+        required: false
+        example: "req-20251028-0001"
+      X-Api-Version:
+        description: "Optional API version header (useful when routing)."
+        type: string
+        required: false
+        example: "v1"

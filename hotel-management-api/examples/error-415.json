@@ -1,0 +1,5 @@
+{
+  "status": 415,
+  "error": "Unsupported Media Type",
+  "message": "Content-Type is not supported."
+}

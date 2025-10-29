@@ -1,0 +1,212 @@
+#%RAML 1.0 Library
+usage: Common types for Hotel Management API
+
+types:
+  Address:
+    type: object
+    properties:
+      street: string
+      city: string
+      state: string
+      postalCode: string
+      country: string
+
+  Hotel:
+    type: object
+    properties:
+      id: string
+      name: string
+      description: string
+      address: Address
+      stars: integer
+      phone: string
+      amenities: string[]
+    example:
+      id: "h1001"
+      name: "Grand Ocean View"
+      description: "Luxury seaside hotel with conference facilities"
+      address:
+        street: "123 Seaside Ave"
+        city: "Santa Marina"
+        state: "CA"
+        postalCode: "90210"
+        country: "USA"
+      stars: 5
+      phone: "+1-310-555-0143"
+      amenities: ["pool","spa","free-wifi","gym"]
+
+  Room:
+    type: object
+    properties:
+      id: string
+      hotelId: string
+      number: string
+      type:
+        type: string
+        enum: ["Standard", "Deluxe", "Suite", "Family", "Accessible", "Deluxe Sea View"]
+      price: number
+      currency:
+        type: string
+        enum: ["USD", "EUR", "GBP", "INR", "JPY"]
+      available: boolean
+      amenities: string[]
+    example:
+      id: "r2001"
+      hotelId: "h1001"
+      number: "101"
+      type: "Deluxe Sea View"
+      price: 250.00
+      currency: "USD"
+      available: true
+      amenities: ["king-bed","balcony","mini-bar"]
+
+  Booking:
+    type: object
+    properties:
+      id: string
+      hotelId: string
+      roomId: string
+      guestName: string
+      guestEmail: string
+      checkIn:
+        type: string
+        description: Check-in date and time in ISO 8601
+      checkOut:
+        type: string
+        description: Check-out date and time in ISO 8601
+      total: number
+      currency:
+        type: string
+        enum: ["USD", "EUR", "GBP", "INR", "JPY"]
+      status:
+        type: string
+        enum: ["pending", "confirmed", "cancelled", "checked-in", "checked-out"]
+    example:
+      id: "b3001"
+      hotelId: "h1001"
+      roomId: "r2001"
+      guestName: "Aisha Khan"
+      guestEmail: "aisha.khan@example.com"
+      checkIn: "2025-11-15T15:00:00Z"
+      checkOut: "2025-11-18T11:00:00Z"
+      total: 750.00
+      currency: "USD"
+      status: "confirmed"
+
+  HotelList:
+    type: object
+    properties:
+      count: integer
+      items: Hotel[]
+
+  RoomList:
+    type: object
+    properties:
+      count: integer
+      items: Room[]
+
+  BookingList:
+    type: object
+    properties:
+      count: integer
+      items: Booking[]
+
+  ErrorResponse:
+    type: object
+    properties:
+      status: integer
+      error: string
+      message: string
+      path?: string
+      timestamp?: string
+      details?: object
+    example:
+      status: 400
+      error: "Bad Request"
+      message: "Invalid input data."
+      path: "/hotels"
+      timestamp: "2025-10-28T12:00:00Z"
+
+  Error400:
+    type: ErrorResponse
+    example:
+      status: 400
+      error: "Bad Request"
+      message: "Invalid request parameters."
+
+  Error401:
+    type: ErrorResponse
+    example:
+      status: 401
+      error: "Unauthorized"
+      message: "Authentication required."
+
+  Error403:
+    type: ErrorResponse
+    example:
+      status: 403
+      error: "Forbidden"
+      message: "You do not have permission to access this resource."
+
+  Error404:
+    type: ErrorResponse
+    example:
+      status: 404
+      error: "Not Found"
+      message: "Resource not found."
+
+  Error405:
+    type: ErrorResponse
+    example:
+      status: 405
+      error: "Method Not Allowed"
+      message: "HTTP method not allowed for this endpoint."
+
+  Error406:
+    type: ErrorResponse
+    example:
+      status: 406
+      error: "Not Acceptable"
+      message: "Requested media type is not supported."
+
+  Error415:
+    type: ErrorResponse
+    example:
+      status: 415
+      error: "Unsupported Media Type"
+      message: "Content-Type is not supported."
+
+  Error429:
+    type: ErrorResponse
+    example:
+      status: 429
+      error: "Too Many Requests"
+      message: "Rate limit exceeded."
+
+  Error500:
+    type: ErrorResponse
+    example:
+      status: 500
+      error: "Internal Server Error"
+      message: "An unexpected error occurred."
+
+  Error501:
+    type: ErrorResponse
+    example:
+      status: 501
+      error: "Not Implemented"
+      message: "This operation is not implemented."
+
+  Error599:
+    type: ErrorResponse
+    example:
+      status: 599
+      error: "Network Connect Timeout Error"
+      message: "Network connection timed out."
+
+  ErrorGeneric:
+    type: ErrorResponse
+    example:
+      status: 520
+      error: "Unknown Error"
+      message: "An unknown error occurred."
