@@ -131,9 +131,9 @@ uses:
         description: Filter rooms by type/name.
         enum: ["Standard", "Deluxe", "Suite", "Family", "Accessible", "Deluxe Sea View"]
       available:
-        type: boolean
+              # example: !include examples/bookings-object.json
         required: false
-        example: true
+        example: "true"
         description: Filter rooms by availability.
     responses:
       200:
@@ -193,71 +193,4 @@ uses:
             application/json:
               example: {}
 
-/bookings:
-  get:
-    description: Retrieve bookings
-    queryParameters:
-      guestName:
-        type: string
-        required: false
-        example: "Aisha Khan"
-        description: Filter bookings by guest name.
-      hotelId:
-        type: string
-        required: false
-        example: "h1001"
-        description: Filter bookings by hotel id.
-    responses:
-      200:
-        body:
-          application/json:
-            type: types.BookingList
-            example: !include examples/bookings-list.json
-
-  post:
-    is: [ traits.clientHeaders ]
-    description: Create a booking
-    # securedBy: [ client_id_header ]
-    body:
-      application/json:
-        type: types.Booking
-        example: !include examples/bookings-object.json
-    responses:
-      201:
-        body:
-          application/json:
-            type: types.Booking
-
-  /{bookingId}:
-    uriParameters:
-      bookingId:
-        type: string
-        required: true
-        example: "b3001"
-        description: Unique booking identifier.
-        displayName: Booking ID
-    get:
-      is: [ traits.clientHeaders ]
-      responses:
-        200:
-          body:
-            application/json:
-              type: types.Booking
-              example: !include examples/bookings-object.json
-
-    put:
-      # securedBy: [ client_id_header ]
-      body:
-        application/json:
-          type: types.Booking
-      responses:
-        200:
-          body:
-            application/json:
-              type: types.Booking
-
-    delete:
-      # securedBy: [ client_id_header ]
-      responses:
-        204:
 
