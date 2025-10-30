@@ -156,41 +156,43 @@ uses:
           application/json:
             type: types.Room
 
-  /{roomId}:
-    uriParameters:
-      roomId:
-        type: string
-        required: true
-        example: "r2001"
-        description: Unique room identifier.
-        displayName: Room ID
-    get:
-      is: [ traits.clientHeaders ]
-      responses:
-        200:
-          body:
-            application/json:
-              type: types.Room
-              example: !include examples/rooms-object.json
 
-    put:
-      # securedBy: [ client_id_header ]
-      body:
-        application/json:
-          type: types.Room
-      responses:
-        200:
-          body:
-            application/json:
-              type: types.Room
 
-    delete:
-      # securedBy: [ client_id_header ]
-      responses:
-        204:
-          description: Booking deleted successfully. No content returned.
-          body:
-            application/json:
-              example: {}
+  # /{roomId}:
+  #   uriParameters:
+  #     roomId:
+  #       type: string
+  #       required: true
+  #       example: "r2001"
+  #       description: Unique room identifier.
+  #       displayName: Room ID
+  #   get:
+  #     is: [ traits.clientHeaders ]
+  #     responses:
+  #       200:
+  #         body:
+  #           application/json:
+  #             type: types.Room
+  #             example: !include examples/rooms-object.json
+
+  #   put:
+  #     # securedBy: [ client_id_header ]
+  #     body:
+  #       application/json:
+  #         type: types.Room
+  #     responses:
+  #       200:
+  #         body:
+  #           application/json:
+  #             type: types.Room
+
+  #   delete:
+  #     # securedBy: [ client_id_header ]
+  #     responses:
+  #       204:
+  #         description: Booking deleted successfully. No content returned.
+  #         body:
+  #           application/json:
+  #             example: {}
 
 
