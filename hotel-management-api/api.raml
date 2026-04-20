@@ -3,8 +3,6 @@ title: Hotel Management API
 version: v1
 baseUri: https://hotel-management-jsobcx.5sc6y6-4.usa-e2.cloudhub.io
 mediaType: application/json
-# securitySchemes:
-#   client_id_header: !include security/securitySchemes.raml
 
 uses:
   types: types/common-types.raml
@@ -72,3 +70,86 @@ uses:
           application/json:
             type: types.Hotel
 
+  /{hotelId}:
+    uriParameters:
+      hotelId:
+        type: string
+        required: true
+        example: "h1001"
+        description: Unique hotel identifier (URI component).
+        displayName: Hotel ID
+    get:
+      is: [ traits.clientHeaders ]
+      description: Retrieve hotel by id. Returns 404 if the hotel does not exist.
+      responses:
+        200:
+          body:
+            application/json:
+              type: types.Hotel
+              example: !include examples/hotels-object.json
+
+    put:
+      is: [ traits.clientHeaders ]
+      description: Update an existing hotel. Partial updates are not supported; send full resource representation.
+      # securedBy: [ client_id_header ]
+      body:
+        application/json:
+          type: types.Hotel
+      responses:
+        200:
+          body:
+            application/json:
+              type: types.Hotel
+
+    delete:
+      is: [ traits.clientHeaders ]
+      description: Delete a hotel. This may perform a soft-delete depending on implementation.
+      # securedBy: [ client_id_header ]
+      responses:
+        204:
+          description: Room deleted successfully. No content returned.
+          body:
+            application/json:
+              example: {}
+
+/rooms:
+  get:
+    is: [ traits.clientHeaders ]
+    description: List rooms with optional filters
+    queryParameters:
+      hotelId:
+        type: string
+        required: false
+        example: "h1001"
+        description: Filter rooms by hotel id.
+      type:
+        type: string
+        required: false
+        example: "Deluxe Sea View"
+        description: Filter rooms by type/name.
+        enum: ["Standard", "Deluxe", "Suite", "Family", "Accessible", "Deluxe Sea View"]
+      available:
+              # example: !include examples/bookings-object.json
+        required: false
+        example: "true"
+        description: Filter rooms by availability.
+    responses:
+      200:
+        body:
+          application/json:
+            type: types.RoomList
+            example: !include examples/rooms-list.json
+
+  post:
+    is: [ traits.clientHeaders ]
+    description: Create a room
+    # securedBy: [ client_id_header ]
+    body:
+      application/json:
+        type: types.Room
+        example: !include examples/rooms-object.json
+    responses:
+      201:
+        body:
+          application/json:
+            type: types.Room
